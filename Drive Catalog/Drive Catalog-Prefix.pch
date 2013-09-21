@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'Drive Catalog' target in the 'Drive Catalog' project
+//
+
+#ifdef __OBJC__
+    #import <Cocoa/Cocoa.h>
+#endif
