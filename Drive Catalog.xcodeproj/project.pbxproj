@@ -8,12 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		BE38BC1117EE53E500397F38 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE38BC1017EE53E500397F38 /* Cocoa.framework */; };
-		BE38BC1317EE53E500397F38 /* MacRuby.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE38BC1217EE53E500397F38 /* MacRuby.framework */; };
 		BE38BC1C17EE53E500397F38 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BE38BC1A17EE53E500397F38 /* InfoPlist.strings */; };
 		BE38BC1E17EE53E500397F38 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BE38BC1D17EE53E500397F38 /* main.m */; };
 		BE38BC2317EE53E500397F38 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE38BC2117EE53E500397F38 /* MainMenu.xib */; };
 		BE38BC2617EE53E500397F38 /* rb_main.rb in Resources */ = {isa = PBXBuildFile; fileRef = BE38BC2517EE53E500397F38 /* rb_main.rb */; };
 		BE38BC2817EE53E500397F38 /* AppDelegate.rb in Resources */ = {isa = PBXBuildFile; fileRef = BE38BC2717EE53E500397F38 /* AppDelegate.rb */; };
+		BE38BC3E17EFE3AC00397F38 /* MacRuby.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE38BC3D17EFE3AC00397F38 /* MacRuby.framework */; };
+		BE38C11117F24A8900EECBCB /* ShowFileIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = BE38C11017F24A8900EECBCB /* ShowFileIcon.png */; };
+		BE38C11417F27CEF00EECBCB /* CopyPathIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = BE38C11217F27CEF00EECBCB /* CopyPathIcon.png */; };
+		BE38C11F17F2B49300EECBCB /* Icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = BE38C11E17F2B49300EECBCB /* Icon.icns */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,7 +32,6 @@
 /* Begin PBXFileReference section */
 		BE38BC0D17EE53E500397F38 /* Drive Catalog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Drive Catalog.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE38BC1017EE53E500397F38 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
-		BE38BC1217EE53E500397F38 /* MacRuby.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MacRuby.framework; path = Library/Frameworks/MacRuby.framework; sourceTree = DEVELOPER_DIR; };
 		BE38BC1917EE53E500397F38 /* Drive Catalog-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Drive Catalog-Info.plist"; sourceTree = "<group>"; };
 		BE38BC1B17EE53E500397F38 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		BE38BC1D17EE53E500397F38 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -37,6 +39,10 @@
 		BE38BC2217EE53E500397F38 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		BE38BC2517EE53E500397F38 /* rb_main.rb */ = {isa = PBXFileReference; lastKnownFileType = text.script.ruby; path = rb_main.rb; sourceTree = "<group>"; };
 		BE38BC2717EE53E500397F38 /* AppDelegate.rb */ = {isa = PBXFileReference; lastKnownFileType = text.script.ruby; path = AppDelegate.rb; sourceTree = "<group>"; };
+		BE38BC3D17EFE3AC00397F38 /* MacRuby.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MacRuby.framework; path = ../../../../Library/Frameworks/MacRuby.framework; sourceTree = "<group>"; };
+		BE38C11017F24A8900EECBCB /* ShowFileIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ShowFileIcon.png; sourceTree = "<group>"; };
+		BE38C11217F27CEF00EECBCB /* CopyPathIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CopyPathIcon.png; sourceTree = "<group>"; };
+		BE38C11E17F2B49300EECBCB /* Icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Icon.icns; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,7 +51,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BE38BC1117EE53E500397F38 /* Cocoa.framework in Frameworks */,
-				BE38BC1317EE53E500397F38 /* MacRuby.framework in Frameworks */,
+				BE38BC3E17EFE3AC00397F38 /* MacRuby.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -55,6 +61,7 @@
 		BE38BC0417EE53E500397F38 = {
 			isa = PBXGroup;
 			children = (
+				BE38C11E17F2B49300EECBCB /* Icon.icns */,
 				BE38BC1717EE53E500397F38 /* Drive Catalog */,
 				BE38BC0F17EE53E500397F38 /* Frameworks */,
 				BE38BC0E17EE53E500397F38 /* Products */,
@@ -72,8 +79,8 @@
 		BE38BC0F17EE53E500397F38 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				BE38BC3D17EFE3AC00397F38 /* MacRuby.framework */,
 				BE38BC1017EE53E500397F38 /* Cocoa.framework */,
-				BE38BC1217EE53E500397F38 /* MacRuby.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -103,6 +110,8 @@
 		BE38BC2017EE53E500397F38 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				BE38C11217F27CEF00EECBCB /* CopyPathIcon.png */,
+				BE38C11017F24A8900EECBCB /* ShowFileIcon.png */,
 				BE38BC2117EE53E500397F38 /* MainMenu.xib */,
 			);
 			name = Resources;
@@ -121,11 +130,12 @@
 /* Begin PBXLegacyTarget section */
 		BE38BC1417EE53E500397F38 /* Deployment */ = {
 			isa = PBXLegacyTarget;
-			buildArgumentsString = "--compile --embed";
+			buildArgumentsString = "--compile --embed --gem sqlite3 --gem filesize";
 			buildConfigurationList = BE38BC2E17EE53E500397F38 /* Build configuration list for PBXLegacyTarget "Deployment" */;
 			buildPhases = (
 			);
 			buildToolPath = /usr/local/bin/macruby_deploy;
+			buildWorkingDirectory = "";
 			dependencies = (
 				BE38BC1617EE53E500397F38 /* PBXTargetDependency */,
 			);
@@ -136,9 +146,9 @@
 /* End PBXLegacyTarget section */
 
 /* Begin PBXNativeTarget section */
-		BE38BC0C17EE53E500397F38 /* Drive Catalog */ = {
+		BE38BC0C17EE53E500397F38 /* Drive Cat */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = BE38BC2B17EE53E500397F38 /* Build configuration list for PBXNativeTarget "Drive Catalog" */;
+			buildConfigurationList = BE38BC2B17EE53E500397F38 /* Build configuration list for PBXNativeTarget "Drive Cat" */;
 			buildPhases = (
 				BE38BC0917EE53E500397F38 /* Sources */,
 				BE38BC0A17EE53E500397F38 /* Frameworks */,
@@ -148,7 +158,7 @@
 			);
 			dependencies = (
 			);
-			name = "Drive Catalog";
+			name = "Drive Cat";
 			productName = "Drive Catalog";
 			productReference = BE38BC0D17EE53E500397F38 /* Drive Catalog.app */;
 			productType = "com.apple.product-type.application";
@@ -174,7 +184,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				BE38BC0C17EE53E500397F38 /* Drive Catalog */,
+				BE38BC0C17EE53E500397F38 /* Drive Cat */,
 				BE38BC1417EE53E500397F38 /* Deployment */,
 			);
 		};
@@ -189,6 +199,9 @@
 				BE38BC2317EE53E500397F38 /* MainMenu.xib in Resources */,
 				BE38BC2617EE53E500397F38 /* rb_main.rb in Resources */,
 				BE38BC2817EE53E500397F38 /* AppDelegate.rb in Resources */,
+				BE38C11117F24A8900EECBCB /* ShowFileIcon.png in Resources */,
+				BE38C11417F27CEF00EECBCB /* CopyPathIcon.png in Resources */,
+				BE38C11F17F2B49300EECBCB /* Icon.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -208,7 +221,7 @@
 /* Begin PBXTargetDependency section */
 		BE38BC1617EE53E500397F38 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = BE38BC0C17EE53E500397F38 /* Drive Catalog */;
+			target = BE38BC0C17EE53E500397F38 /* Drive Cat */;
 			targetProxy = BE38BC1517EE53E500397F38 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -297,6 +310,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SYSTEM_APPS_DIR)/Xcode.app/Contents/Developer/Library/Frameworks\"",
+					/Library/Frameworks,
 				);
 				GCC_ENABLE_OBJC_GC = required;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -314,6 +328,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SYSTEM_APPS_DIR)/Xcode.app/Contents/Developer/Library/Frameworks\"",
+					/Library/Frameworks,
 				);
 				GCC_ENABLE_OBJC_GC = required;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -348,13 +363,14 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		BE38BC2B17EE53E500397F38 /* Build configuration list for PBXNativeTarget "Drive Catalog" */ = {
+		BE38BC2B17EE53E500397F38 /* Build configuration list for PBXNativeTarget "Drive Cat" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				BE38BC2C17EE53E500397F38 /* Debug */,
 				BE38BC2D17EE53E500397F38 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		BE38BC2E17EE53E500397F38 /* Build configuration list for PBXLegacyTarget "Deployment" */ = {
 			isa = XCConfigurationList;
@@ -363,6 +379,7 @@
 				BE38BC3017EE53E500397F38 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
