@@ -30,7 +30,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		BE38BC0D17EE53E500397F38 /* Drive Catalog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Drive Catalog.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BE38BC0D17EE53E500397F38 /* Drive Catalog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = "Drive Catalog.app"; path = "Drive Cat.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE38BC1017EE53E500397F38 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		BE38BC1917EE53E500397F38 /* Drive Catalog-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Drive Catalog-Info.plist"; sourceTree = "<group>"; };
 		BE38BC1B17EE53E500397F38 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -130,7 +130,7 @@
 /* Begin PBXLegacyTarget section */
 		BE38BC1417EE53E500397F38 /* Deployment */ = {
 			isa = PBXLegacyTarget;
-			buildArgumentsString = "--compile --embed --gem sqlite3 --gem filesize";
+			buildArgumentsString = "--compile --embed --gem sqlite3 --gem sequel";
 			buildConfigurationList = BE38BC2E17EE53E500397F38 /* Build configuration list for PBXLegacyTarget "Deployment" */;
 			buildPhases = (
 			);

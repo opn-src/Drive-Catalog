@@ -9,7 +9,14 @@
 # Loading the Cocoa framework. If you need to load more frameworks, you can
 # do that here too.
 framework 'Cocoa'
+$:.unshift '/Users/pierce/.rvm/gems/ruby-2.0.0-p247/gems/sequel-4.2.0/lib' # sequel
+$:.unshift '/Users/pierce/.rvm/gems/ruby-2.0.0-p247/gems/sqlite3-1.3.8/lib' #sqlite
 
+require 'rubygems'
+require 'sqlite3'
+#require 'sequel'
+require 'date'
+require 'fileutils'
 # Loading all the Ruby project files.
 main = File.basename(__FILE__, File.extname(__FILE__))
 dir_path = NSBundle.mainBundle.resourcePath.fileSystemRepresentation
