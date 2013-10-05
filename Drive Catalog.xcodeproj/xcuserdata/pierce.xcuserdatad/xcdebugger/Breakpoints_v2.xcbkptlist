@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../../../Library/Frameworks/MacRuby.framework/Versions/0.12/usr/include/ruby-1.9.2/ruby/ruby.h"
+            timestampString = "402354398.008104"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "815"
+            endingLineNumber = "815">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "set_sqlite3_func_result"
+                  moduleName = "sqlite3_native.bundle"
+                  urlString = "file://localhost/Library/Frameworks/MacRuby.framework/Versions/0.12/usr/include/ruby-1.9.2/ruby/ruby.h"
+                  timestampString = "402698360.19896"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "915"
+                  endingLineNumber = "915"
+                  offsetFromSymbolStart = "145">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "bind_param"
+                  moduleName = "sqlite3_native.bundle"
+                  urlString = "file://localhost/Library/Frameworks/MacRuby.framework/Versions/0.12/usr/include/ruby-1.9.2/ruby/ruby.h"
+                  timestampString = "402698360.199715"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "915"
+                  endingLineNumber = "915"
+                  offsetFromSymbolStart = "503">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "bind_param"
+                  moduleName = "sqlite3_native.bundle"
+                  urlString = "file://localhost/Library/Frameworks/MacRuby.framework/Versions/0.12/usr/include/ruby-1.9.2/ruby/ruby.h"
+                  timestampString = "402698360.200282"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "915"
+                  endingLineNumber = "915"
+                  offsetFromSymbolStart = "535">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../../../Library/Frameworks/MacRuby.framework/Versions/0.12/usr/include/ruby-1.9.2/ruby/ruby.h"
+            timestampString = "402354399.028408"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "817"
+            endingLineNumber = "817">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "set_sqlite3_func_result"
+                  moduleName = "sqlite3_native.bundle"
+                  urlString = "file://localhost/Library/Frameworks/MacRuby.framework/Versions/0.12/usr/include/ruby-1.9.2/ruby/ruby.h"
+                  timestampString = "402698360.200981"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "915"
+                  endingLineNumber = "915"
+                  offsetFromSymbolStart = "145">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "bind_param"
+                  moduleName = "sqlite3_native.bundle"
+                  urlString = "file://localhost/Library/Frameworks/MacRuby.framework/Versions/0.12/usr/include/ruby-1.9.2/ruby/ruby.h"
+                  timestampString = "402698360.201378"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "915"
+                  endingLineNumber = "915"
+                  offsetFromSymbolStart = "503">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "bind_param"
+                  moduleName = "sqlite3_native.bundle"
+                  urlString = "file://localhost/Library/Frameworks/MacRuby.framework/Versions/0.12/usr/include/ruby-1.9.2/ruby/ruby.h"
+                  timestampString = "402698360.201921"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "915"
+                  endingLineNumber = "915"
+                  offsetFromSymbolStart = "535">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>

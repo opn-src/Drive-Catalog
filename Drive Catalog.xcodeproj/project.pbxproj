@@ -17,6 +17,8 @@
 		BE38C11117F24A8900EECBCB /* ShowFileIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = BE38C11017F24A8900EECBCB /* ShowFileIcon.png */; };
 		BE38C11417F27CEF00EECBCB /* CopyPathIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = BE38C11217F27CEF00EECBCB /* CopyPathIcon.png */; };
 		BE38C11F17F2B49300EECBCB /* Icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = BE38C11E17F2B49300EECBCB /* Icon.icns */; };
+		BE8B760317FE7E8700FE3563 /* Arrows-Left-round-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = BE8B760117FE7E8700FE3563 /* Arrows-Left-round-icon.png */; };
+		BE8B760417FE7E8700FE3563 /* Arrows-Right-round-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = BE8B760217FE7E8700FE3563 /* Arrows-Right-round-icon.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -30,7 +32,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		BE38BC0D17EE53E500397F38 /* Drive Catalog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = "Drive Catalog.app"; path = "Drive Cat.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BE38BC0D17EE53E500397F38 /* Drive Cat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Drive Cat.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE38BC1017EE53E500397F38 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		BE38BC1917EE53E500397F38 /* Drive Catalog-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Drive Catalog-Info.plist"; sourceTree = "<group>"; };
 		BE38BC1B17EE53E500397F38 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -43,6 +45,8 @@
 		BE38C11017F24A8900EECBCB /* ShowFileIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ShowFileIcon.png; sourceTree = "<group>"; };
 		BE38C11217F27CEF00EECBCB /* CopyPathIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CopyPathIcon.png; sourceTree = "<group>"; };
 		BE38C11E17F2B49300EECBCB /* Icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Icon.icns; sourceTree = "<group>"; };
+		BE8B760117FE7E8700FE3563 /* Arrows-Left-round-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Arrows-Left-round-icon.png"; sourceTree = "<group>"; };
+		BE8B760217FE7E8700FE3563 /* Arrows-Right-round-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Arrows-Right-round-icon.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,7 +75,7 @@
 		BE38BC0E17EE53E500397F38 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				BE38BC0D17EE53E500397F38 /* Drive Catalog.app */,
+				BE38BC0D17EE53E500397F38 /* Drive Cat.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -110,6 +114,8 @@
 		BE38BC2017EE53E500397F38 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				BE8B760117FE7E8700FE3563 /* Arrows-Left-round-icon.png */,
+				BE8B760217FE7E8700FE3563 /* Arrows-Right-round-icon.png */,
 				BE38C11217F27CEF00EECBCB /* CopyPathIcon.png */,
 				BE38C11017F24A8900EECBCB /* ShowFileIcon.png */,
 				BE38BC2117EE53E500397F38 /* MainMenu.xib */,
@@ -160,7 +166,7 @@
 			);
 			name = "Drive Cat";
 			productName = "Drive Catalog";
-			productReference = BE38BC0D17EE53E500397F38 /* Drive Catalog.app */;
+			productReference = BE38BC0D17EE53E500397F38 /* Drive Cat.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -198,9 +204,11 @@
 				BE38BC1C17EE53E500397F38 /* InfoPlist.strings in Resources */,
 				BE38BC2317EE53E500397F38 /* MainMenu.xib in Resources */,
 				BE38BC2617EE53E500397F38 /* rb_main.rb in Resources */,
+				BE8B760417FE7E8700FE3563 /* Arrows-Right-round-icon.png in Resources */,
 				BE38BC2817EE53E500397F38 /* AppDelegate.rb in Resources */,
 				BE38C11117F24A8900EECBCB /* ShowFileIcon.png in Resources */,
 				BE38C11417F27CEF00EECBCB /* CopyPathIcon.png in Resources */,
+				BE8B760317FE7E8700FE3563 /* Arrows-Left-round-icon.png in Resources */,
 				BE38C11F17F2B49300EECBCB /* Icon.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
