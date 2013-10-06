@@ -6,7 +6,7 @@
 #  Copyright 2013 Pierce Corcoran. All rights reserved.
 #
 
-#(fold) standard class extensions
+#(fold) class extensions
 class String
   def quote
     self.gsub(/[']/, "\'\'")
@@ -22,6 +22,27 @@ class Time
     return NSDate.dateWithString(self.to_s)
   end
 end
+
+# class SQLite3::Database
+#   def exec_hash(sql,*bind_vars)
+#     columns = []
+#     rows = []
+#     first_row = true
+#     self.execute2(sql,*bind_vars) do |row|
+#       if first_row
+#         columns = row.map {|c| c.to_sym}
+#         first_row = false
+#       else
+#         row_hash = {}
+#         row.each_index do |index|
+#           row_hash[columns[index]] = row[index]
+#         end
+#       end
+#     end
+#     
+#     return rows
+#   end
+# end
 #(end)
 
 #(fold) constants
@@ -166,7 +187,7 @@ def constructSQL(table,conds,seperator="AND")
   if conds.empty?
     sql = "SELECT * FROM #{table.sqlescape}"
   else
-    sql = "SELECT * FROM #{table.sqlescape} WHERE #{conds.join(" " + seperator + " ")};"
+    sql = "SELECT * FROM #{table.sqlescape} WHERE #{conds.join(" " + seperator + " ")}"
   end
 end
 
@@ -239,6 +260,8 @@ class FileSearch
     if !@size.empty?
       conds << "size > #{@size[0]} AND #{@size[1]} < end"
     end
+    
+    conds << '1=1'
     @drivesql = constructSQL('Drive',driveconds)
     @sql = constructSQL('File',conds)
     puts "--DriveSQL-- #{@drivesql} --DriveSQL--"
@@ -248,25 +271,57 @@ class FileSearch
   def doSQL()
     firstrow = true
     rows = []
+    driverows = []
     begin
+      columns = []
+      # (fold) get drive rows
       @db.execute2(@drivesql) do |row|
         if firstrow
           columns = row.map {|c| c.to_sym}
           firstrow = false
+          next
         end
         row_hash = {}
         row.each_index do |index|
+          puts "in row loop"
+          row_hash[columns[index]] = row[index]
+        end
+        driverows << row_hash
+      end
+      # (end)
+      #puts driverows
+      ids = driverows.map {|r| r[:id]}
+      fullsql = ""
+      if ids.empty?
+        fullsql = "#{@sql}"
+      elsif ids.length == 1
+        fullsql = "#{@sql} AND drive_id=#{ids[0]}"
+      else
+        fullsql = "#{@sql} AND drive_id IN (#{ids.join(',')})"
+      end
+      puts fullsql
+      firstrow = true
+      columns = []
+      
+      @db.execute2(fullsql) do |row|
+        if firstrow
+          columns = row.map {|c| c.to_sym}
+          firstrow = false
+          next
+        end
+        row_hash = {}
+        row.each_index do |index|
+          #puts "in row loop 2"
           row_hash[columns[index]] = row[index]
         end
         rows << row_hash
       end
-      puts rows
-    
+      #puts rows
     rescue SQLite3::SQLException => e
-      puts e
+      puts e.backtrace
       alert("ERROR:","ERROR:\nSQLite3::SQLException => #{e}\nThis usually means that the database was not built properly")
     end
-      
+    return {:drives => driverows, :files => rows}
   end
 end
 # (end)
@@ -279,6 +334,7 @@ class CatalogSearchDelegate
   attr_accessor :size_s, :size_e
   attr_accessor :search_button
   attr_accessor :catalog_list
+  attr_accessor :progresswheel
   attr_accessor :files, :array_controller, :collection_view
   
   def awakeFromNib()
@@ -291,6 +347,7 @@ class CatalogSearchDelegate
                   FileItem.new("test_path5",102235,4523445,3545343, "drive2")
                   ]
     self.refreshCatalogList(nil)
+    self.refreshDriveList(nil)
     creation_e.setDateValue Time.now.nsdate
     modification_e.setDateValue Time.now.nsdate
     puts ZeroDate.inspect
@@ -389,8 +446,12 @@ end tell|
     @db = nil
   end
   
-  def refreshDriveList()
-    
+  def refreshDriveList(sender)
+    if @db
+      @drives = @db.execute("SELECT * FROM Drive")
+      puts @drives
+    end
+    puts "__#{@drives}"
   end
   
   def catalogListChanged(sender)
@@ -403,7 +464,7 @@ end tell|
       if confirm("Are you sure you want to switch to the '#{@selected}' catalog?","",1)
         @db = SQLite3::Database.open "#{applicationSupportFolder}/databases/#{@selected}.db"
         puts @db.inspect
-        refreshDriveList()
+        refreshDriveList(nil)
       else
         @selected = oldSelected
         catalog_list.selectItemWithTitle @selected
@@ -411,9 +472,28 @@ end tell|
     end
   end
   
+  def nextPage(sender)
+    puts @pagenum
+    pagestart = (@pagenum-1) * 50
+    if (pagestart + 50) <= @allfiles.length
+      self.files = @allfiles[pagestart..pagestart+50]
+      @pagenum += 1
+    end
+  end 
+  
+  def prevPage(sender)
+    puts @pagenum
+    if @pagenum != 1
+      @pagenum -= 1
+      pagestart = (@pagenum-1) * 50
+      self.files = @allfiles[pagestart..pagestart+50]
+    end
+  end
+  
   def search(sender)
     if @db.nil?
       alert("Select A Catalog","Select a Catalog to search")
+      return
     end
     puts creation_enable.state
     unsub_keywords = pathKWs_input.objectValue
@@ -450,9 +530,27 @@ end tell|
     # (end)
     searcher = FileSearch.new(@db,keywords,drives,exts,creation,modification,size)
     searcher.compileSQL()
-    searcher.doSQL()
+    progresswheel.startAnimation nil
+    result = searcher.doSQL()
+    tmpfiles = []
+    result[:files].each do |file|
+      tmpfile = FileItem.new(file[:path],file[:size],file[:modification],file[:creation],"drive")
+      tmpfiles << tmpfile
+    end
+    @allfiles = tmpfiles
+    @pagenum = 1
+    self.files = @allfiles[0..50]
+    progresswheel.stopAnimation nil
   end
-  
+
+  def tokenField (tokenField, completionsForSubstring: substring, indexOfToken: tokenIndex, indexOfSelectedItem: selectedIndex)
+    complete = []
+    if @drives 
+      completeObjs = @drives.select { |drive| drive[1].upcase.start_with?(substring.upcase) }
+      complete = completeObjs.map { |drive| drive[1]}
+    end
+    return complete
+  end
 end
 
 class CatalogDriveDelegate
