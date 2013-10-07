@@ -614,7 +614,7 @@ Units aren't case sensitive </string>
                         </buttonCell>
                     </button>
                     <popUpButton verticalHuggingPriority="750" id="1090">
-                        <rect key="frame" x="17" y="390" width="135" height="22"/>
+                        <rect key="frame" x="40" y="389" width="135" height="22"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="1091">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -626,7 +626,7 @@ Units aren't case sensitive </string>
                         </connections>
                     </popUpButton>
                     <button id="1096">
-                        <rect key="frame" x="148" y="395" width="17" height="15"/>
+                        <rect key="frame" x="171" y="394" width="17" height="15"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSRefreshTemplate" imagePosition="overlaps" alignment="center" state="on" imageScaling="proportionallyDown" inset="2" id="1097">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -725,9 +725,9 @@ Units aren't case sensitive </string>
                         </connections>
                     </button>
                     <button id="hpR-MJ-nLo">
-                        <rect key="frame" x="165" y="398" width="8" height="8"/>
+                        <rect key="frame" x="20" y="392" width="19" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSAddTemplate" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="k4K-LU-lOj">
+                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="create catalog" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="k4K-LU-lOj">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
@@ -761,6 +761,22 @@ Units aren't case sensitive </string>
                             <action selector="prevPage:" target="995" id="HlL-o3-f2C"/>
                         </connections>
                     </button>
+                    <textField canDrawConcurrently="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" id="9Qu-KA-mTN">
+                        <rect key="frame" x="440" y="-1" width="309" height="24"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="1,234,200" id="gso-sY-R7d">
+                            <font key="font" size="20" name="LucidaGrande-Bold"/>
+                            <color key="textColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                        <connections>
+                            <binding destination="995" name="value" keyPath="self.fileNum" id="J6H-cA-d4w">
+                                <dictionary key="options">
+                                    <bool key="NSContinuouslyUpdatesValue" value="YES"/>
+                                </dictionary>
+                            </binding>
+                        </connections>
+                    </textField>
                 </subviews>
             </view>
             <connections>
@@ -987,14 +1003,14 @@ Units aren't case sensitive </string>
                 <textField verticalHuggingPriority="750" id="802">
                     <rect key="frame" x="5" y="10" width="332" height="17"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Path" id="803">
+                    <textFieldCell key="cell" lineBreakMode="truncatingMiddle" sendsActionOnEndEditing="YES" title="Path" id="803">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                     <connections>
-                        <binding destination="798" name="value" keyPath="representedObject.path" id="818"/>
                         <binding destination="798" name="toolTip" keyPath="representedObject.path" id="VHH-SG-4Bm"/>
+                        <binding destination="798" name="value" keyPath="representedObject.filename" id="rNY-fQ-DbZ"/>
                     </connections>
                 </textField>
                 <textField verticalHuggingPriority="750" id="827">
@@ -1184,9 +1200,9 @@ Path Keywords, Drive Names, and Extensions</string>
         <image name="Arrows-Right-round-icon" width="20.799972534179688" height="20.799972534179688"/>
         <image name="CopyPathIcon" width="500" height="500"/>
         <image name="Icon" width="512" height="512"/>
-        <image name="NSAddTemplate" width="8" height="8"/>
         <image name="NSRefreshTemplate" width="10" height="12"/>
         <image name="NSStopProgressTemplate" width="11" height="11"/>
         <image name="ShowFileIcon" width="500" height="500"/>
+        <image name="create catalog" width="30" height="30"/>
     </resources>
 </document>

@@ -19,6 +19,8 @@
 		BE38C11F17F2B49300EECBCB /* Icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = BE38C11E17F2B49300EECBCB /* Icon.icns */; };
 		BE8B760317FE7E8700FE3563 /* Arrows-Left-round-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = BE8B760117FE7E8700FE3563 /* Arrows-Left-round-icon.png */; };
 		BE8B760417FE7E8700FE3563 /* Arrows-Right-round-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = BE8B760217FE7E8700FE3563 /* Arrows-Right-round-icon.png */; };
+		BED6F95518022258002692EF /* create catalog.png in Resources */ = {isa = PBXBuildFile; fileRef = BED6F95318022258002692EF /* create catalog.png */; };
+		BED6F95618022258002692EF /* delete catalog.png in Resources */ = {isa = PBXBuildFile; fileRef = BED6F95418022258002692EF /* delete catalog.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +49,8 @@
 		BE38C11E17F2B49300EECBCB /* Icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Icon.icns; sourceTree = "<group>"; };
 		BE8B760117FE7E8700FE3563 /* Arrows-Left-round-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Arrows-Left-round-icon.png"; sourceTree = "<group>"; };
 		BE8B760217FE7E8700FE3563 /* Arrows-Right-round-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Arrows-Right-round-icon.png"; sourceTree = "<group>"; };
+		BED6F95318022258002692EF /* create catalog.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "create catalog.png"; sourceTree = "<group>"; };
+		BED6F95418022258002692EF /* delete catalog.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "delete catalog.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,10 +118,7 @@
 		BE38BC2017EE53E500397F38 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				BE8B760117FE7E8700FE3563 /* Arrows-Left-round-icon.png */,
-				BE8B760217FE7E8700FE3563 /* Arrows-Right-round-icon.png */,
-				BE38C11217F27CEF00EECBCB /* CopyPathIcon.png */,
-				BE38C11017F24A8900EECBCB /* ShowFileIcon.png */,
+				BED6F95218022234002692EF /* images */,
 				BE38BC2117EE53E500397F38 /* MainMenu.xib */,
 			);
 			name = Resources;
@@ -129,6 +130,19 @@
 				BE38BC2517EE53E500397F38 /* rb_main.rb */,
 			);
 			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		BED6F95218022234002692EF /* images */ = {
+			isa = PBXGroup;
+			children = (
+				BED6F95318022258002692EF /* create catalog.png */,
+				BED6F95418022258002692EF /* delete catalog.png */,
+				BE38C11217F27CEF00EECBCB /* CopyPathIcon.png */,
+				BE38C11017F24A8900EECBCB /* ShowFileIcon.png */,
+				BE8B760117FE7E8700FE3563 /* Arrows-Left-round-icon.png */,
+				BE8B760217FE7E8700FE3563 /* Arrows-Right-round-icon.png */,
+			);
+			name = images;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -201,6 +215,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BED6F95618022258002692EF /* delete catalog.png in Resources */,
 				BE38BC1C17EE53E500397F38 /* InfoPlist.strings in Resources */,
 				BE38BC2317EE53E500397F38 /* MainMenu.xib in Resources */,
 				BE38BC2617EE53E500397F38 /* rb_main.rb in Resources */,
@@ -209,6 +224,7 @@
 				BE38C11117F24A8900EECBCB /* ShowFileIcon.png in Resources */,
 				BE38C11417F27CEF00EECBCB /* CopyPathIcon.png in Resources */,
 				BE8B760317FE7E8700FE3563 /* Arrows-Left-round-icon.png in Resources */,
+				BED6F95518022258002692EF /* create catalog.png in Resources */,
 				BE38C11F17F2B49300EECBCB /* Icon.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

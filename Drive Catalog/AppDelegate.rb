@@ -213,7 +213,7 @@ class FileSearch
     @db = db
     @keywords = _keywords || []
     @drives = _drives || []
-    @extenstions = _extensions || []
+    @extensions = _extensions || []
     @creation = _creation || []
     @modification = _modification || []
     @size = _size || []
@@ -222,12 +222,12 @@ class FileSearch
   end
   
   def compileSQL()
-    puts @keywords.inspect
-    puts @drives.inspect
-    puts @extenstions.inspect
-    puts @creation.inspect
-    puts @modification.inspect
-    puts @size.inspect
+    puts "k #{@keywords.inspect}"
+    puts "d #{@drives.inspect}"
+    puts "e #{@extensions.inspect}"
+    puts "c #{@creation.inspect}"
+    puts "m #{@modification.inspect}"
+    puts "s #{@size.inspect}"
     
     conds = []
     driveconds = []
@@ -243,7 +243,7 @@ class FileSearch
         puts driveconds
       end
     end
-    if !@extensions == []
+    if !@extensions.empty?
       @extensions.each do |ext|
         if ext[0] == '.'
           ext = ext[1..-1]
@@ -336,6 +336,8 @@ class CatalogSearchDelegate
   attr_accessor :catalog_list
   attr_accessor :progresswheel
   attr_accessor :files, :array_controller, :collection_view
+  
+  attr_accessor :fileNum
   
   def awakeFromNib()
     puts "CatalogSearchDelegate awake"
@@ -474,20 +476,20 @@ end tell|
   
   def nextPage(sender)
     puts @pagenum
-    pagestart = (@pagenum-1) * 50
-    if (pagestart + 50) <= @allfiles.length
-      self.files = @allfiles[pagestart..pagestart+50]
+    if !(@pagenum+1 >= @allfiles.length)
       @pagenum += 1
-    end
+      self.files = @allfiles[@pagenum]
+    end 
+    puts @pagenum
   end 
   
   def prevPage(sender)
     puts @pagenum
-    if @pagenum != 1
+    if @pagenum-1 >= 0
       @pagenum -= 1
-      pagestart = (@pagenum-1) * 50
-      self.files = @allfiles[pagestart..pagestart+50]
+      self.files = @allfiles[@pagenum]
     end
+    puts @pagenum
   end
   
   def search(sender)
@@ -537,9 +539,11 @@ end tell|
       tmpfile = FileItem.new(file[:path],file[:size],file[:modification],file[:creation],"drive")
       tmpfiles << tmpfile
     end
-    @allfiles = tmpfiles
-    @pagenum = 1
-    self.files = @allfiles[0..50]
+    @filecount = tmpfiles.length
+    @allfiles = tmpfiles.each_slice(50).to_a
+    @pagenum = 0
+    self.files = @allfiles[0]
+    self.fileNum = num_f @filecount
     progresswheel.stopAnimation nil
   end
 
@@ -1182,6 +1186,10 @@ class FileItem
   
   def creation
     @creation.strftime(@dateFormat)
+  end
+  
+  def filename
+    @path #File.basename(@path)
   end
 end
 
