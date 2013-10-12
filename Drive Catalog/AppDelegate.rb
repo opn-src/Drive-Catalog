@@ -118,94 +118,6 @@ end
 
 # (end)
 
-# (fold) helper functions
-def percent(done,total)
-  ((done / total.to_f) * 100).round
-end
-
-def confirm(msg="Are you sure?", title="", alert_style=nil)
-  alert = NSAlert.alertWithMessageText(title,
-                                       defaultButton:"No",
-                                       alternateButton:"Yes",
-                                       otherButton:nil,
-                                       informativeTextWithFormat:msg)
-  alert.alertStyle = alert_style if alert_style
-  alert.runModal == 0 ? true : false
-end
-
-def alert(title,message)
-  alert = NSAlert.alertWithMessageText( title , defaultButton:"OK",
-       alternateButton:nil, otherButton:nil, informativeTextWithFormat:message)
-  alert.runModal
-end
-
-def size_f(size,precision=2)
-   case
-     when size == 1 then "1 Byte"
-     when size < Units['KB'] then "%d Bytes" % size
-     when size < Units['MB'] then "%.#{precision}f KB" % (size / Units['KB'])
-     when size < Units['GB'] then "%.#{precision}f MB" % (size / Units['MB'])
-     when size < Units['TB'] then "%.#{precision}f GB" % (size / Units['GB'])
-     else "%.#{precision}f TB" % (size / Units['TB'])
-   end
-end
-
-def time_f(t)
-  mm, ss = t.divmod(60)            
-  hh, mm = mm.divmod(60)           
-  #dd, hh = hh.divmod(24)           
-  sprintf("%02d:%02d:%02ds", hh, mm, ss)
-end
-
-def pathQ(str)
-  str.gsub("\"","\\\"")
-end
-
-def num_f(num)
-  "#{num}".gsub(/(\d)(?=\d{3}+(?:\.|$))(\d{3}\..*)?/,'\1,\2')
-end
-
-def applicationSupportFolder
-  paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, true)
-  basePath = (paths.count > 0) ? paths[0] : NSTemporaryDirectory()
-  return basePath.stringByAppendingPathComponent("Drive Catalog")
-end
-
-def wildcards(item,gsubs=[['*','%'],['+','_']])
-  result = item.dup
-  gsubs.each do |i|
-    matchQuote = Regexp.quote(i[0])
-    areg = /(?<!\\)#{matchQuote}/
-    breg = /\\#{matchQuote}/
-    result = result.gsub(areg,i[1])
-    result = result.gsub(breg,i[0])
-  end
-  return result.sqlescape
-end
-
-def constructSQL(table,conds,seperator="AND")
-  if conds.empty?
-    sql = "SELECT * FROM #{table.sqlescape}"
-  else
-    sql = "SELECT * FROM #{table.sqlescape} WHERE #{conds.join(" " + seperator + " ")}"
-  end
-end
-
-def to_size(size)
-  return 0 if size == ""
-  puts size.inspect
-  size = size.upcase.strip
-  unit = size[-2..-1]
-  result = size[0..-2].to_i * Units[unit]
-  puts "--#{result}--#{unit}"
-  return result
-end
-
-def updateStatus(statusbar,status)
-  statusbar.setStringValue status
-end
-# (end)
-
 # (fold) helper classes  
 class FileSearch
   attr_accessor :keywords, :drives, :extensions, :creation, :modifcation, :size# , :sql, :drivesql
@@ -335,19 +247,21 @@ class CatalogSearchDelegate
   attr_accessor :search_button
   attr_accessor :catalog_list
   attr_accessor :progresswheel
+  attr_accessor :next_page_button, :prev_page_button
   attr_accessor :files, :array_controller, :collection_view
   
   attr_accessor :fileNum
   
   def awakeFromNib()
     puts "CatalogSearchDelegate awake"
-    self.files = [
-                  FileItem.new("test_path1",24536678,4523445,3545343,"drive1"),
-                  FileItem.new("test_path2",102235,4523445,3545343, "drive2"),
-                  FileItem.new("test_path3",102235,4523445,3545343, "drive1"),
-                  FileItem.new("test_path4",102235,4523445,3545343, "drive1"),
-                  FileItem.new("test_path5",102235,4523445,3545343, "drive2")
-                  ]
+    self.files = []
+    # [
+#                   FileItem.new("test_path1",24536678,4523445,3545343,"drive1"),
+#                   FileItem.new("test_path2",102235,4523445,3545343, "drive2"),
+#                   FileItem.new("test_path3",102235,4523445,3545343, "drive1"),
+#                   FileItem.new("test_path4",102235,4523445,3545343, "drive1"),
+#                   FileItem.new("test_path5",102235,4523445,3545343, "drive2")
+#                   ]
     self.refreshCatalogList(nil)
     self.refreshDriveList(nil)
     creation_e.setDateValue Time.now.nsdate
@@ -479,6 +393,9 @@ end tell|
     if !(@pagenum+1 >= @allfiles.length)
       @pagenum += 1
       self.files = @allfiles[@pagenum]
+      if @pagenum+1 >= @allfiles.length
+        
+      end
     end 
     puts @pagenum
   end 
@@ -893,6 +810,241 @@ class CreateDBDelegate
       db.close if db
     end
     yield :end, nil
+  end
+end
+
+class DBActionsDelegate
+  attr_accessor :window
+  attr_accessor :catalog_list
+  attr_accessor :init1, :init2, :init3, :init4
+  
+  attr_reader :selected
+  
+  def awakeFromNib()
+    refreshCatalogList nil
+    puts "DBActionsDelegate Awake"
+  end
+  
+  def openWindow(sender)
+    window.makeKeyAndOrderFront nil
+    call_on_each_tab(:start)
+  end
+  
+  def call_on_each_tab(method, *args)
+    raise TypeError unless (method.is_a? String or method.is_a? Symbol)
+    method = method.to_sym if method.is_a? String
+    methods = []
+    methods << init1.method(method) if init1
+    methods << init2.method(method) if init2
+    methods << init3.method(method) if init3
+    methods << init4.method(method) if init4
+    if args
+      methods.map {|m| m.call(*args) }
+    else
+      methods.map {|m| m.call }
+    end
+  end
+  
+  def refreshCatalogList(sender)
+    catalogs_names = filenames("#{applicationSupportFolder}/databases/","db")
+    # catalogs_dirlist = Dir["#{applicationSupportFolder}/databases/*.db"].select {|f| !File.directory? f}
+#     catalogs_names = catalogs_dirlist.map {|f| File.basename(f,".db")}
+    puts catalogs_names
+    @selected = "---"
+    set_list_value(catalog_list,catalogs_names,"---")
+    # catalog_list.removeAllItems
+#     catalog_list.addItemsWithTitles catalogs_names
+    catalogListChanged nil
+  end
+  
+  def catalogListChanged(sender)
+    @selected = get_selected(catalog_list,@selected) { |sel|
+      call_on_each_tab(:catalog=,sel)
+    }
+      # oldSelected = @selected
+#     @selected = catalog_list.titleOfSelectedItem
+#     if @selected == "---"
+#       @selected = oldSelected
+#       catalog_list.selectItemWithTitle @selected
+#     end
+  end
+end
+#------------------------
+class DBActionDelegateTemplate
+  attr_accessor :view
+ # attr_accessor :delegate
+  
+  def awakeFromNib()
+    puts "#{self.class} Awake"
+    @catalog = nil
+  end
+  
+  def catalog=(catalog)
+    @catalog = catalog
+    self.catalog_changed(catalog)
+  end
+  
+  def catalog_changed(catalog)
+    puts "catalog_changed has not been implemented yet"
+  end
+  
+  def start()
+    puts "start() has not been implemented"
+  end
+end
+#------------------------
+class DBAddDriveDelegate < DBActionDelegateTemplate  
+  attr_accessor :drive_list, :info_text, :progress_bar, :drives_in_catalog
+  
+  def start()
+    updateDriveList(nil)
+    @drivename = "---"
+    update_info_text
+  end
+  
+  def driveListChanged(sender)
+    @drivename = drive_list.titleOfSelectedItem
+    puts @drivename
+    update_info_text
+  end
+  
+  def addDriveClicked(sender)
+    unless @db
+      alert("Select a Catalog","Please Select a Catalog")
+      return
+    end
+    unless drive_list.titleOfSelectedItem != "---"
+      alert("Select a Drive","Please Select a Drive")
+      return
+    end
+    addDrive
+  end
+  
+  def addDrive()
+    drive_name = drive_list.titleOfSelectedItem
+    last_drive_id = @db.execute("SELECT MAX(id) FROM Drive")
+    last_drive_id = last_drive_id.first.first || 0 # [[id]]
+    last_file_id = @db.execute("SELECT MAX(id) FROM File")
+    last_file_id = last_file_id.first.first || 0  # [[id]]
+    drive_id = last_drive_id + 1
+    file_id = last_file_id + 1
+    linenum = 0
+    filename = "#{applicationSupportFolder}/Listings/#{drive_name}.dindex"
+    linecount = %x{wc -l '#{filename}'}.to_i
+    progress_bar.startAnimation nil
+    progress_bar.setMaxValue linecount
+    File.foreach(filename) do |line|
+      line = line.strip
+      if linenum == 0
+        drive, notes = line.split(":::")
+        sql = "INSERT INTO Drive (id,name,notes) VALUES ('#{drive_id}','#{drive_name}','#{notes}')"
+        #puts sql
+        @db.execute(sql)
+        linenum += 1
+        next
+      end
+      #p line
+      #p line.split(":::")
+      path, creation, modification, size = line.split(":::")
+      sql = "INSERT INTO File (id,drive_id,path,creation,modification,size) VALUES 
+      ('#{file_id}','#{drive_id}','#{path}','#{creation}','#{modification}','#{size}')"
+      @db.execute(sql)
+      file_id += 1
+      linenum += 1
+      progress_bar.setDoubleValue linenum
+    end
+    progress_bar.stopAnimation nil
+  end
+  
+  def updateDriveList(sender)
+    files = filenames("#{applicationSupportFolder}/Listings/","dindex")
+    puts @excludeDrives
+    files = files - (@excludeDrives ||= [])
+    set_list_value(drive_list,files,"---")
+  end
+  
+  def update_info_text()
+    info_text.stringValue = "Add Drive '#{@drivename}' to '#{@catalog}'"
+  end
+  
+  def catalog_updated()
+    file = "#{applicationSupportFolder}/databases/#{@catalog}.db"
+    return unless File.exists? file
+    @db = SQLite3::Database.new file
+    begin
+      excludeRows = @db.execute("SELECT (name) FROM Drive")
+    rescue SQLite3::SQLException => e
+      puts e.backtrace
+      alert("ERROR:","ERROR:\nSQLite3::SQLException => #{e}\nThis usually means that the database was not built properly")
+    end
+    @excludeDrives = excludeRows.map {|v| v[0]}
+    drives_in_catalog.stringValue = "Drives in catalog:\n#{@excludeDrives.map {|v| "• #{v}"}.join("\n")}"
+  end
+  
+  def catalog_changed(catalog)
+    catalog_updated
+    updateDriveList nil
+    update_info_text
+  end
+end
+#------------------------
+class DBRemoveDriveDelegate < DBActionDelegateTemplate
+  attr_accessor :drive_list
+  
+  def driveListChanged(sender)
+    @drivename = drive_list.titleOfSelectedItem
+    puts @drivename
+  end
+  
+  def removeDriveClicked(sender)
+    if confirm("Are you sure you want to remove '#{@drivename}' from '#{@catalog}'?")
+      if @db
+        drive_row = @db.execute("SELECT (id) FROM Drive WHERE name = '#{@drivename}'")
+        drive_id = drive_row.first.first # [[id]]
+        puts drive_id
+        sql = "DELETE FROM Drive WHERE id='#{drive_id}'"
+        puts sql
+        @db.execute(sql)
+        sql = "DELETE FROM File WHERE drive_id='#{drive_id}'"
+        puts sql
+        @db.execute(sql)
+      end
+    end
+  end
+  
+  def catalog_changed(catalog)
+    file = "#{applicationSupportFolder}/databases/#{@catalog}.db"
+    return unless File.exists? file
+    @db = SQLite3::Database.new file
+    begin
+      rows = @db.execute("SELECT (name) FROM Drive")
+    rescue SQLite3::SQLException => e
+      puts e.backtrace
+      alert("ERROR:","ERROR:\nSQLite3::SQLException => #{e}\nThis usually means that the database was not built properly")
+    end
+    @drives = rows.map {|v| v[0]}
+    set_list_value(drive_list,@drives,"---")
+  end
+  
+end
+#------------------------
+class DBUpdateCatalogDelegate < DBActionDelegateTemplate
+
+end
+#------------------------
+class DBDeleteCatalogDelegete < DBActionDelegateTemplate
+  attr_accessor :catalog_button
+  attr_accessor :window
+  
+  def deleteClicked(sender)
+    if confirm("Are you sure you want to delete '#{@catalog}'?")
+      FileUtils.rm("#{applicationSupportFolder}/databases/#{@catalog}.db")
+      window.orderOut nil
+    end
+  end
+  
+  def catalog_changed(catalog)
+    catalog_button.stringValue = "Delete #{@catalog}"
   end
 end
 

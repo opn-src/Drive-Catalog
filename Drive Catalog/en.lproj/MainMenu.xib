@@ -12,10 +12,47 @@
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application"/>
-        <customObject id="494" customClass="AppDelegate">
+        <customObject id="494" userLabel="**App Delegate**" customClass="AppDelegate">
             <connections>
                 <outlet property="application" destination="-3" id="cuN-Gt-Nrz"/>
                 <outlet property="quit1" destination="995" id="CtM-xe-pPa"/>
+            </connections>
+        </customObject>
+        <customObject id="CzE-j7-pjG" customClass="DBActionsDelegate">
+            <connections>
+                <outlet property="catalog_list" destination="w6G-Km-b0E" id="4bA-ic-iU5"/>
+                <outlet property="init1" destination="v2h-q6-nD8" id="o5o-ze-Q9N"/>
+                <outlet property="init2" destination="HBG-ht-Mrk" id="84u-4X-nc7"/>
+                <outlet property="init3" destination="t9A-mE-JQU" id="vbl-kf-8EB"/>
+                <outlet property="window" destination="26u-SK-NBN" id="6XJ-f5-7yX"/>
+            </connections>
+        </customObject>
+        <customObject id="HBG-ht-Mrk" userLabel="> Delete Catalog Delegete" customClass="DBDeleteCatalogDelegete">
+            <connections>
+                <outlet property="catalog_button" destination="PVF-en-rxz" id="tl6-w6-tg7"/>
+                <outlet property="view" destination="cSi-eV-eal" id="IJh-Bh-k6Y"/>
+                <outlet property="window" destination="26u-SK-NBN" id="q2V-8U-8e0"/>
+            </connections>
+        </customObject>
+        <customObject id="6db-wY-WDc" userLabel="> Update Catalog Delegate " customClass="DBUpdateCatalogDelegate">
+            <connections>
+                <outlet property="delegate" destination="CzE-j7-pjG" id="OM3-oE-AXJ"/>
+                <outlet property="view" destination="egy-Un-0AF" id="gzI-WY-dvo"/>
+            </connections>
+        </customObject>
+        <customObject id="t9A-mE-JQU" userLabel="> Remove Drive Delegate   " customClass="DBRemoveDriveDelegate">
+            <connections>
+                <outlet property="drive_list" destination="7tQ-jq-4Si" id="MsA-Nc-sOc"/>
+                <outlet property="view" destination="J5q-m5-tbS" id="6Mu-Tx-pb2"/>
+            </connections>
+        </customObject>
+        <customObject id="v2h-q6-nD8" userLabel="> Add Drive Delegate        " customClass="DBAddDriveDelegate">
+            <connections>
+                <outlet property="drive_list" destination="XY5-7X-mCF" id="btU-nJ-AoG"/>
+                <outlet property="drives_in_catalog" destination="f44-Po-nEa" id="fLw-Mx-d6k"/>
+                <outlet property="info_text" destination="tOP-sw-cqA" id="mP3-dS-wHQ"/>
+                <outlet property="progress_bar" destination="sn2-nX-Ppz" id="twW-8R-rC5"/>
+                <outlet property="view" destination="0CG-gw-dIc" id="Oa1-ve-bDa"/>
             </connections>
         </customObject>
         <customObject id="995" customClass="CatalogSearchDelegate">
@@ -240,6 +277,12 @@
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <action selector="makeKeyAndOrderFront:" target="371" id="Wli-gu-0eg"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Catalog Actions" enabled="NO" id="Hnc-9g-pme">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="openWindow:" target="CzE-j7-pjG" id="JR7-jo-bRu"/>
                                 </connections>
                             </menuItem>
                         </items>
@@ -1009,8 +1052,8 @@ Units aren't case sensitive </string>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                     <connections>
-                        <binding destination="798" name="toolTip" keyPath="representedObject.path" id="VHH-SG-4Bm"/>
                         <binding destination="798" name="value" keyPath="representedObject.filename" id="rNY-fQ-DbZ"/>
+                        <binding destination="798" name="toolTip" keyPath="representedObject.path" id="VHH-SG-4Bm"/>
                     </connections>
                 </textField>
                 <textField verticalHuggingPriority="750" id="827">
@@ -1194,6 +1237,193 @@ Path Keywords, Drive Names, and Extensions</string>
                 </menuItem>
             </items>
         </menu>
+        <window title="Catalog Actions" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="26u-SK-NBN">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="131" y="159" width="480" height="270"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="878"/>
+            <view key="contentView" id="W2O-FE-IxL">
+                <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <tabView focusRingType="none" id="jOh-KO-iOo">
+                        <rect key="frame" x="13" y="10" width="454" height="237"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <font key="font" metaFont="system"/>
+                        <tabViewItems>
+                            <tabViewItem label="Add Drive" identifier="1" id="jjS-yl-2hG">
+                                <view key="view" id="0CG-gw-dIc" userLabel="Add Drive View">
+                                    <rect key="frame" x="10" y="33" width="434" height="191"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <popUpButton verticalHuggingPriority="750" id="XY5-7X-mCF">
+                                            <rect key="frame" x="143" y="165" width="259" height="26"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                            <popUpButtonCell key="cell" type="push" title="Item 1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="qKY-V8-WNY" id="DkF-l5-vRk">
+                                                <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                                <font key="font" metaFont="menu"/>
+                                                <menu key="menu" title="OtherViews" id="Bd5-Gj-Re4">
+                                                    <items>
+                                                        <menuItem title="Item 1" state="on" id="qKY-V8-WNY"/>
+                                                        <menuItem title="Item 2" id="895-kz-gsv"/>
+                                                        <menuItem title="Item 3" id="24F-ml-ZZZ"/>
+                                                    </items>
+                                                </menu>
+                                            </popUpButtonCell>
+                                            <connections>
+                                                <action selector="driveListChanged:" target="v2h-q6-nD8" id="7l9-vE-3BK"/>
+                                            </connections>
+                                        </popUpButton>
+                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="4d3-4d-j73">
+                                            <rect key="frame" x="14" y="171" width="132" height="17"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Select Drive To Add:" id="efs-0l-uFI">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="tOP-sw-cqA">
+                                            <rect key="frame" x="142" y="129" width="260" height="34"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="Add Drive *** To ***" id="FRx-iO-OJM">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                        <button id="Xqg-Vr-sx4">
+                                            <rect key="frame" x="401" y="171" width="16" height="16"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSRefreshTemplate" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="Hxc-oX-mcw">
+                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <action selector="updateDriveList:" target="v2h-q6-nD8" id="iEL-JF-XDO"/>
+                                            </connections>
+                                        </button>
+                                        <progressIndicator canDrawConcurrently="YES" maxValue="100" displayedWhenStopped="NO" indeterminate="YES" style="bar" id="sn2-nX-Ppz">
+                                            <rect key="frame" x="3" y="1" width="428" height="20"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                        </progressIndicator>
+                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="f44-Po-nEa">
+                                            <rect key="frame" x="14" y="28" width="132" height="135"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES"/>
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Label" id="zig-w7-p1Y">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                        <button id="cbD-CF-8Sv">
+                                            <rect key="frame" x="248" y="89" width="30" height="30"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="only" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="lUx-Ve-YrY">
+                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <action selector="addDriveClicked:" target="v2h-q6-nD8" id="Iqz-Pa-E8E"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
+                                </view>
+                            </tabViewItem>
+                            <tabViewItem label="Remove Drive" identifier="2" id="6a3-JR-Tds">
+                                <view key="view" id="J5q-m5-tbS" userLabel="Remove Drive View">
+                                    <rect key="frame" x="10" y="33" width="434" height="191"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <popUpButton verticalHuggingPriority="750" id="7tQ-jq-4Si">
+                                            <rect key="frame" x="142" y="164" width="152" height="26"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <popUpButtonCell key="cell" type="push" title="Item 1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="3wO-5B-eOo" id="VPl-P2-Zy2">
+                                                <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                                <menu key="menu" title="OtherViews" id="HXB-pC-e0W">
+                                                    <items>
+                                                        <menuItem title="Item 1" state="on" id="3wO-5B-eOo"/>
+                                                        <menuItem title="Item 2" id="7vb-hw-D9v"/>
+                                                        <menuItem title="Item 3" id="Usp-1q-ak2"/>
+                                                    </items>
+                                                </menu>
+                                            </popUpButtonCell>
+                                            <connections>
+                                                <action selector="driveListChanged:" target="t9A-mE-JQU" id="eXA-tg-WwC"/>
+                                            </connections>
+                                        </popUpButton>
+                                        <button verticalHuggingPriority="750" id="kvx-vZ-qnf">
+                                            <rect key="frame" x="172" y="119" width="90" height="32"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="push" title="Remove" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="EMr-Zb-AaF">
+                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <action selector="removeDriveClicked:" target="t9A-mE-JQU" id="58d-9a-hvf"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
+                                </view>
+                            </tabViewItem>
+                            <tabViewItem label="Update Catalog" identifier="" id="vDe-09-tRS">
+                                <view key="view" id="egy-Un-0AF" userLabel="Update Catalog View">
+                                    <rect key="frame" x="10" y="33" width="434" height="191"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                </view>
+                            </tabViewItem>
+                            <tabViewItem label="Delete Catalog" identifier="" id="14k-hS-0Vq">
+                                <view key="view" id="cSi-eV-eal" userLabel="Delete Catalog View">
+                                    <rect key="frame" x="10" y="33" width="434" height="191"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <button verticalHuggingPriority="750" id="PVF-en-rxz">
+                                            <rect key="frame" x="136" y="85" width="163" height="32"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                            <buttonCell key="cell" type="push" title="Remove Catalog" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="9B2-s1-Nhz">
+                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <action selector="deleteClicked:" target="HBG-ht-Mrk" id="i8E-Le-ubQ"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
+                                </view>
+                            </tabViewItem>
+                        </tabViewItems>
+                    </tabView>
+                    <popUpButton verticalHuggingPriority="750" id="w6G-Km-b0E">
+                        <rect key="frame" x="122" y="243" width="139" height="26"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="rHa-JY-LRB">
+                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="menu"/>
+                            <menu key="menu" title="OtherViews" id="Pxo-vo-xW1">
+                                <items>
+                                    <menuItem title="Item 1" id="Cus-vN-Bg3"/>
+                                    <menuItem title="Item 2" id="AHd-G9-COz"/>
+                                    <menuItem title="Item 3" id="MHz-Ct-Qhf"/>
+                                </items>
+                            </menu>
+                        </popUpButtonCell>
+                        <connections>
+                            <action selector="catalogListChanged:" target="CzE-j7-pjG" id="tPr-NB-Sm8"/>
+                        </connections>
+                    </popUpButton>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="SvK-ZB-umq">
+                        <rect key="frame" x="17" y="249" width="109" height="17"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Select a Catalog:" id="oK4-cq-Rn0">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                </subviews>
+            </view>
+        </window>
     </objects>
     <resources>
         <image name="Arrows-Left-round-icon" width="20.799972534179688" height="20.799972534179688"/>
