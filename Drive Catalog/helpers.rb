@@ -6,6 +6,28 @@
 #  Copyright 2013 Pierce Corcoran. All rights reserved.
 #
 
+def make_SQL_like(field,match_string,options={})
+  options[:not_char] ||= "^"
+  options[:prefix] ||= ""
+  options[:suffix] ||= ""
+  not_char = options[:not_char]
+  prefix = options[:prefix]
+  suffix = options[:suffix]
+  r = ""
+  if match_string.start_with? not_char
+    r = "#{field} NOT LIKE '#{prefix}#{match_string[1..-1]}#{suffix}'"
+  else
+    r = "#{field} LIKE '#{prefix}#{match_string}#{suffix}'"
+  end
+end
+
+def copy_to_clipboard(str)
+  pb = NSPasteboard.generalPasteboard
+  types = [NSStringPboardType];
+  pb.declareTypes(types, :owner => self)
+  pb.setString(str, :forType => NSStringPboardType)
+end
+
 def get_selected(popup,old_selected,unselectable="---")
   selected = catalog_list.titleOfSelectedItem
   if selected == unselectable and old_selected != unselectable

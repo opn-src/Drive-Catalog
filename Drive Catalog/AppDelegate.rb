@@ -145,22 +145,25 @@ class FileSearch
     driveconds = []
     if !@keywords.empty?
       @keywords.each do |key|
-        conds << "path LIKE '%#{key}%'"
+        conds << make_SQL_like("path",key,{:prefix=>"%",:suffix=>"%"})#"path LIKE '%#{key}%'"
       end
     end
     if !@drives.empty?
       puts "doing drives"
       @drives.each do |drive|
-        driveconds << "name LIKE '#{drive}'"
+        #driveconds << "name LIKE '#{drive}'"
+        driveconds << make_SQL_like("name",drive)
         puts driveconds
       end
     end
     if !@extensions.empty?
       @extensions.each do |ext|
         if ext[0] == '.'
-          ext = ext[1..-1]
+          ext[0] = ""
+        elsif ext[1] == '.'
+          ext[1] = ""
         end
-        conds << "path LIKE '%.#{ext}'"
+        conds << make_SQL_like("path",ext,{:prefix=>"%."})#
       end
     end
     if !@creation.empty?
@@ -244,7 +247,7 @@ class CatalogSearchDelegate
   attr_accessor :creation_s, :creation_e, :modification_s, :modification_e # range inputs _s to _e
   attr_accessor :creation_enable, :modification_enable # date enable
   attr_accessor :size_s, :size_e
-  attr_accessor :search_button
+  attr_accessor :search_button, :show_app_contents
   attr_accessor :catalog_list
   attr_accessor :progresswheel
   attr_accessor :next_page_button, :prev_page_button
@@ -269,6 +272,29 @@ class CatalogSearchDelegate
     puts ZeroDate.inspect
     creation_s.setDateValue ZeroDate
     modification_s.setDateValue ZeroDate
+    # @app_content_regex_array = [
+    #   %r{/Applications/*.app/*},
+    #   %r{}
+    # ]
+    # @app_content_regex = Regexp.union(appContentsRegexps)
+    @app_content_regex = %r{.*\.app/.*}
+  end
+  
+  def showAppContentsChanged(sender)
+    trunc_files = nil
+    if show_app_contents.state == NSOffState
+      puts @allfiles.class
+      trunc_files = @allfiles.select { |v| 
+        not (v =~ @app_content_regex)
+      }
+    else
+      puts @allfiles.class
+      trunc_files = @allfiles
+    end
+    puts trunc_files.class
+    @showfiles = trunc_files.each_slice(50).to_a
+    self.files = @showfiles[@pagenum]
+    
   end
   
   def cleanUp(sender)
@@ -287,7 +313,9 @@ end tell|
   end
   
   def copyPathToClipboard(sender)
-    puts "copy /Volumes/#{array_controller.selectedObjects.first.path} in finder"
+    path = "/Volumes/#{array_controller.selectedObjects.first.path}"
+    puts "copy #{path} to clipboard"
+    copy_to_clipboard(path)
   end
   
   # (fold) date inputs changed
@@ -390,10 +418,10 @@ end tell|
   
   def nextPage(sender)
     puts @pagenum
-    if !(@pagenum+1 >= @allfiles.length)
+    if !(@pagenum+1 >= @showfiles.length)
       @pagenum += 1
-      self.files = @allfiles[@pagenum]
-      if @pagenum+1 >= @allfiles.length
+      self.files = @showfiles[@pagenum]
+      if @pagenum+1 >= @showfiles.length
         
       end
     end 
@@ -404,7 +432,7 @@ end tell|
     puts @pagenum
     if @pagenum-1 >= 0
       @pagenum -= 1
-      self.files = @allfiles[@pagenum]
+      self.files = @showfiles[@pagenum]
     end
     puts @pagenum
   end
@@ -457,9 +485,10 @@ end tell|
       tmpfiles << tmpfile
     end
     @filecount = tmpfiles.length
-    @allfiles = tmpfiles.each_slice(50).to_a
+    @allfiles = tmpfiles
+    showAppContentsChanged nil
     @pagenum = 0
-    self.files = @allfiles[0]
+    self.files = @showfiles[0]
     self.fileNum = num_f @filecount
     progresswheel.stopAnimation nil
   end
@@ -467,8 +496,19 @@ end tell|
   def tokenField (tokenField, completionsForSubstring: substring, indexOfToken: tokenIndex, indexOfSelectedItem: selectedIndex)
     complete = []
     if @drives 
+      not_drive = ""
+      if substring.start_with? "^"
+        not_drive = "^"
+        substring = substring[1..-1]
+      end
       completeObjs = @drives.select { |drive| drive[1].upcase.start_with?(substring.upcase) }
-      complete = completeObjs.map { |drive| drive[1]}
+      complete = completeObjs.map { |drive| "#{not_drive}#{drive[1]}"}
+      if complete.length > 1
+        complete << "#{not_drive}#{substring}*"
+      end
+      if substring.length < 1
+        complete = []
+      end
     end
     return complete
   end
@@ -678,7 +718,7 @@ class CreateDBDelegate
   def createClicked(sender)
     Thread.new do
       db_name = database_name.stringValue
-      db_notes = database_notes
+      db_notes = database_notes.stringValue
       drives = indexes.map {|v| v if v.selected}
       puts drives.compact.map {|v| v.drive_name}
  
@@ -881,7 +921,9 @@ class DBActionDelegateTemplate
   
   def catalog=(catalog)
     @catalog = catalog
-    self.catalog_changed(catalog)
+    unless catalog == "---"
+      self.catalog_changed(catalog)
+    end
   end
   
   def catalog_changed(catalog)
@@ -970,21 +1012,24 @@ class DBAddDriveDelegate < DBActionDelegateTemplate
   def catalog_updated()
     file = "#{applicationSupportFolder}/databases/#{@catalog}.db"
     return unless File.exists? file
+
     @db = SQLite3::Database.new file
     begin
       excludeRows = @db.execute("SELECT (name) FROM Drive")
     rescue SQLite3::SQLException => e
       puts e.backtrace
-      alert("ERROR:","ERROR:\nSQLite3::SQLException => #{e}\nThis usually means that the database was not built properly")
+      alert("ERROR:","ERROR:\nSQLite3::SQLException => #{e}\nThis usually means that the database was not built properly\nOn File #{file}")
     end
     @excludeDrives = excludeRows.map {|v| v[0]}
     drives_in_catalog.stringValue = "Drives in catalog:\n#{@excludeDrives.map {|v| "• #{v}"}.join("\n")}"
   end
   
   def catalog_changed(catalog)
-    catalog_updated
-    updateDriveList nil
-    update_info_text
+    unless catalog == "---"
+      catalog_updated
+      updateDriveList nil
+      update_info_text
+    end
   end
 end
 #------------------------
@@ -1029,7 +1074,50 @@ class DBRemoveDriveDelegate < DBActionDelegateTemplate
 end
 #------------------------
 class DBUpdateCatalogDelegate < DBActionDelegateTemplate
+  attr_accessor :createCatalogDelegate
+  
+  def catalog_changed(catalog)
+    databaseloc = "#{applicationSupportFolder}/databases/#{catalog}.db"
+    @db = SQLite3::Database.new databaseloc
+    begin
+      @db.execute "SELECT * FROM Drive"
+      @db.execute "SELECT * FROM File"
+    rescue SQLite3::SQLException 
+      @db = nil
+    end
+  end
+  
+  def updateClicked(sender)
+    if @db
+      databaseloc = "#{applicationSupportFolder}/databases/#{@catalog}.db"
+      
+      drive_rows = @db.execute "SELECT * FROM Drive" # [[id,name,notes],[id,name,notes],...]
+      drives = drive_rows.map {|v| v[1]}
+    
+      database_data_rows = @db.execute "SELECT * FROM GlobalData" # [[name,notes]]
+      catalog_notes = database_data_rows.first.last
+      @db.close
+      FileUtils.mv(databaseloc,"#{databaseloc}.updatebackup")
 
+      createCatalogDelegate.open(nil)
+
+      createCatalogDelegate.indexes = createCatalogDelegate.indexes.map { |v|
+         if drives.include?(v.drive_name)
+           v.selected = true
+           r = v
+           puts "sel #{v.drive_name}"
+         else
+           v.selected = false
+           r = v
+           puts "nonsel #{v.drive_name}"
+         end
+         r
+      }
+      createCatalogDelegate.database_name.stringValue = @catalog
+      createCatalogDelegate.database_notes.stringValue = catalog_notes
+      createCatalogDelegate.createClicked(nil)
+    end
+  end
 end
 #------------------------
 class DBDeleteCatalogDelegete < DBActionDelegateTemplate

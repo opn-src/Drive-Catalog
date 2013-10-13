@@ -24,6 +24,7 @@
                 <outlet property="init1" destination="v2h-q6-nD8" id="o5o-ze-Q9N"/>
                 <outlet property="init2" destination="HBG-ht-Mrk" id="84u-4X-nc7"/>
                 <outlet property="init3" destination="t9A-mE-JQU" id="vbl-kf-8EB"/>
+                <outlet property="init4" destination="6db-wY-WDc" id="WIG-ek-Rki"/>
                 <outlet property="window" destination="26u-SK-NBN" id="6XJ-f5-7yX"/>
             </connections>
         </customObject>
@@ -36,7 +37,7 @@
         </customObject>
         <customObject id="6db-wY-WDc" userLabel="> Update Catalog Delegate " customClass="DBUpdateCatalogDelegate">
             <connections>
-                <outlet property="delegate" destination="CzE-j7-pjG" id="OM3-oE-AXJ"/>
+                <outlet property="createCatalogDelegate" destination="997" id="OSb-EM-Nyj"/>
                 <outlet property="view" destination="egy-Un-0AF" id="gzI-WY-dvo"/>
             </connections>
         </customObject>
@@ -68,9 +69,12 @@
                 <outlet property="modification_e" destination="539" id="1029"/>
                 <outlet property="modification_enable" destination="598" id="1030"/>
                 <outlet property="modification_s" destination="538" id="1031"/>
+                <outlet property="next_page_button" destination="xwv-zM-ldp" id="SQv-on-Jo0"/>
                 <outlet property="pathKWs_input" destination="550" id="8i3-Xo-5MX"/>
+                <outlet property="prev_page_button" destination="I24-MD-Hpe" id="5aT-iy-4qt"/>
                 <outlet property="progresswheel" destination="Lbb-1m-Xo1" id="3TJ-LM-yFM"/>
                 <outlet property="search_button" destination="533" id="1033"/>
+                <outlet property="show_app_contents" destination="RPe-KM-Iti" id="e8n-US-7w4"/>
                 <outlet property="size_e" destination="548" id="1034"/>
                 <outlet property="size_s" destination="545" id="1035"/>
                 <outlet property="window" destination="371" id="1036"/>
@@ -820,6 +824,17 @@ Units aren't case sensitive </string>
                             </binding>
                         </connections>
                     </textField>
+                    <button id="RPe-KM-Iti">
+                        <rect key="frame" x="204" y="374" width="146" height="18"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="check" title="Show App Contents" bezelStyle="regularSquare" imagePosition="left" inset="2" id="dcG-nl-FjH">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="showAppContentsChanged:" target="995" id="czr-hP-7rW"/>
+                        </connections>
+                    </button>
                 </subviews>
             </view>
             <connections>
@@ -1160,19 +1175,19 @@ Units aren't case sensitive </string>
         <window title="Help" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" hidesOnDeactivate="YES" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="rPB-lr-Z1a" customClass="NSPanel">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" utility="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="583" y="262" width="335" height="345"/>
+            <rect key="contentRect" x="583" y="262" width="392" height="439"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1440" height="878"/>
             <view key="contentView" id="jDx-pp-6xE">
-                <rect key="frame" x="0.0" y="0.0" width="335" height="345"/>
+                <rect key="frame" x="0.0" y="0.0" width="392" height="439"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView id="he1-cZ-FdL">
-                        <rect key="frame" x="131" y="253" width="72" height="72"/>
+                        <rect key="frame" x="160" y="347" width="72" height="72"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" image="Icon" id="Q6W-ft-wSw"/>
                     </imageView>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="clY-LN-hFP">
-                        <rect key="frame" x="118" y="231" width="98" height="14"/>
+                        <rect key="frame" x="147" y="325" width="98" height="14"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Drive Cat v1.0 (1)" id="lIa-xv-Rci">
                             <font key="font" metaFont="smallSystem"/>
@@ -1180,50 +1195,125 @@ Units aren't case sensitive </string>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="IcR-Eu-3aF">
-                        <rect key="frame" x="15" y="118" width="305" height="51"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" id="Lvd-mR-8Dv">
-                            <font key="font" metaFont="system"/>
-                            <string key="title">* => Matches zero or more characters
+                    <tabView type="noTabsBezelBorder" id="qje-Oc-Gg8">
+                        <rect key="frame" x="16" y="16" width="360" height="303"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <font key="font" metaFont="system"/>
+                        <tabViewItems>
+                            <tabViewItem label="Tab" identifier="1" id="PFi-0m-0p6">
+                                <view key="view" id="zt1-LV-RJF">
+                                    <rect key="frame" x="10" y="7" width="340" height="283"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="IcR-Eu-3aF">
+                                            <rect key="frame" x="18" y="146" width="305" height="68"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" id="Lvd-mR-8Dv">
+                                                <font key="font" metaFont="system"/>
+                                                <string key="title">* => Matches zero or more characters
 + => Matches a single character
+prefix with a ^ to exclude
 Prefix a * or + with a \ to match a literal * or +</string>
-                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="vvt-Q5-2WX">
-                        <rect key="frame" x="21" y="189" width="292" height="34"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" allowsEditingTextAttributes="YES" id="vFh-78-oEE">
-                            <font key="font" metaFont="system"/>
-                            <string key="title">Fields that support wildcards:
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="vvt-Q5-2WX">
+                                            <rect key="frame" x="24" y="234" width="292" height="34"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" allowsEditingTextAttributes="YES" id="vFh-78-oEE">
+                                                <font key="font" metaFont="system"/>
+                                                <string key="title">Fields that support wildcards:
 Path Keywords, Drive Names, and Extensions</string>
-                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="KZh-VK-FDw">
-                        <rect key="frame" x="133" y="164" width="69" height="17"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Wildcards:" id="JTI-pf-vpg">
-                            <font key="font" metaFont="system"/>
-                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
-                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" id="2Gd-jo-97z">
-                        <rect key="frame" x="17" y="20" width="301" height="85"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" id="5ot-G9-LU5">
-                            <font key="font" metaFont="system"/>
-                            <string key="title">Examples "VV*A" will match "VVkeibdoA", "VVaA", or "VVA"
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" id="2Gd-jo-97z">
+                                            <rect key="frame" x="20" y="6" width="301" height="119"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" id="5ot-G9-LU5">
+                                                <font key="font" metaFont="system"/>
+                                                <string key="title">Examples "VV*A" will match "VVkeibdoA", "VVaA", or "VVA"
 "VV+A" will match
-"VVaA", "VVdA", but not "VVdgibA"</string>
-                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
+"VVaA", "VVdA", but not "VVdgibA"
+"^VDD" will match
+"VAA","dfZ", but not "VDD"</string>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="KZh-VK-FDw">
+                                            <rect key="frame" x="136" y="209" width="69" height="17"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Wildcards:" id="JTI-pf-vpg">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                    </subviews>
+                                </view>
+                            </tabViewItem>
+                            <tabViewItem label="View" identifier="2" id="iZY-Ux-xXI">
+                                <view key="view" id="wMf-Zj-etP">
+                                    <rect key="frame" x="10" y="7" width="340" height="283"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="WAz-bE-vxD">
+                                            <rect key="frame" x="45" y="251" width="250" height="17"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Drives Field matches whole drive name" id="cLV-S3-dxi">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="7Wf-va-pp1">
+                                            <rect key="frame" x="37" y="226" width="266" height="17"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Keywords Field matches any spot in path" id="PM0-CY-hds">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="930-fA-a66">
+                                            <rect key="frame" x="8" y="201" width="324" height="17"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Extenstions matches the .XXX at the end of a path" id="RVb-eO-BF5">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                    </subviews>
+                                </view>
+                            </tabViewItem>
+                        </tabViewItems>
+                    </tabView>
+                    <button id="ZhJ-oH-C1I">
+                        <rect key="frame" x="351" y="318" width="21" height="21"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="Arrows-Right-round-icon" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="Ey8-8q-WRA">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="selectNextTabViewItem:" target="qje-Oc-Gg8" id="nYa-XD-5qR"/>
+                        </connections>
+                    </button>
+                    <button id="KLf-02-vN5">
+                        <rect key="frame" x="20" y="318" width="21" height="21"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="Arrows-Left-round-icon" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="RNf-Iu-e7e">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="selectPreviousTabViewItem:" target="qje-Oc-Gg8" id="wFe-5z-x4u"/>
+                        </connections>
+                    </button>
                 </subviews>
             </view>
         </window>
@@ -1340,7 +1430,7 @@ Path Keywords, Drive Names, and Extensions</string>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <popUpButtonCell key="cell" type="push" title="Item 1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="3wO-5B-eOo" id="VPl-P2-Zy2">
                                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                                                <font key="font" metaFont="system"/>
+                                                <font key="font" metaFont="menu"/>
                                                 <menu key="menu" title="OtherViews" id="HXB-pC-e0W">
                                                     <items>
                                                         <menuItem title="Item 1" state="on" id="3wO-5B-eOo"/>
@@ -1371,6 +1461,19 @@ Path Keywords, Drive Names, and Extensions</string>
                                 <view key="view" id="egy-Un-0AF" userLabel="Update Catalog View">
                                     <rect key="frame" x="10" y="33" width="434" height="191"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <button verticalHuggingPriority="750" id="ICo-ch-Y3a">
+                                            <rect key="frame" x="132" y="85" width="171" height="32"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="push" title="Update" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Oyc-Ea-4wY">
+                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <action selector="updateClicked:" target="6db-wY-WDc" id="OH4-tK-bod"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
                                 </view>
                             </tabViewItem>
                             <tabViewItem label="Delete Catalog" identifier="" id="14k-hS-0Vq">
@@ -1421,6 +1524,17 @@ Path Keywords, Drive Names, and Extensions</string>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
+                    <button focusRingType="none" id="RCZ-Za-rst">
+                        <rect key="frame" x="262" y="247" width="16" height="18"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSRefreshTemplate" imagePosition="only" alignment="center" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="lTW-d5-GNM">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="refreshCatalogList:" target="CzE-j7-pjG" id="jKP-wc-oM1"/>
+                        </connections>
+                    </button>
                 </subviews>
             </view>
         </window>
