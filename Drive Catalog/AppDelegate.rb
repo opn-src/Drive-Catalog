@@ -143,7 +143,6 @@ class FileSearch
     
     conds = []
     driveconds = []
-    ext_conds = []
     if !@keywords.empty?
       @keywords.each do |key|
         conds << make_SQL_like("path",key,{:prefix=>"%",:suffix=>"%"})#"path LIKE '%#{key}%'"
@@ -164,7 +163,7 @@ class FileSearch
         elsif ext[1] == '.'
           ext[1] = ""
         end
-        ext_conds << make_SQL_like("path",ext,{:prefix=>"%."})#
+        conds << make_SQL_like("path",ext,{:prefix=>"%."})#
       end
     end
     if !@creation.empty?
@@ -179,7 +178,7 @@ class FileSearch
     
     conds << '1=1'
     @drivesql = constructSQL('Drive',driveconds)
-    @sql = constructSQL('File',conds,ext_conds)
+    @sql = constructSQL('File',conds)
     puts "--DriveSQL-- #{@drivesql} --DriveSQL--"
     puts " --MainSQL-- #{@sql} --MainSQL--"
   end
@@ -211,9 +210,9 @@ class FileSearch
       if ids.empty?
         fullsql = "#{@sql}"
       elsif ids.length == 1
-        fullsql = "#{@sql} AND drive_id=#{ids[0]} ORDER BY upper(path)"
+        fullsql = "#{@sql} AND drive_id=#{ids[0]}"
       else
-        fullsql = "#{@sql} AND drive_id IN (#{ids.join(',')}) ORDER BY upper(path)"
+        fullsql = "#{@sql} AND drive_id IN (#{ids.join(',')})"
       end
       puts fullsql
       firstrow = true
@@ -248,7 +247,7 @@ class CatalogSearchDelegate
   attr_accessor :creation_s, :creation_e, :modification_s, :modification_e # range inputs _s to _e
   attr_accessor :creation_enable, :modification_enable # date enable
   attr_accessor :size_s, :size_e
-  attr_accessor :search_button, :show_app_contents, :page_select_list
+  attr_accessor :search_button, :show_app_contents
   attr_accessor :catalog_list
   attr_accessor :progresswheel
   attr_accessor :next_page_button, :prev_page_button
@@ -281,48 +280,21 @@ class CatalogSearchDelegate
     @app_content_regex = %r{.*\.app/.*}
   end
   
-  def showAppContentsChanged(sender) #list of files changed
-    if @allfiles
-      trunc_files = nil
-      if show_app_contents.state == NSOffState
-        trunc_files = @allfiles.select { |v| 
-          not (v.path =~ @app_content_regex)
-        }
-      else
-        trunc_files = @allfiles
-      end
-
-      trunc_files = fileIndex(trunc_files)
-    
-      files = trunc_files.each_slice(50).to_a
-      @showfiles = files
-      pages = @showfiles.length # get length of files to show
-      
-      if pages == 0 # if there are no results...
-        page_select_list.hidden = true # hide the page select list
-      else
-
-        letters = ['A','a'] # the current letters for page 0
-        page_select_list.hidden = false # unhide the page select list
-        pagerange = [] # the list of page titles
-        
-        (0..pages-1).each do |v| # loop over pages
-          p = (v + 1).to_s # get the one indexed value and convert to string
-          
-          letters = compare_file_letters(@showfiles[v].first,letters) # get the path letters starting the page
-          
-          puts "#{p} — #{letters}"
-          
-          pagerange << "#{p}-#{letters.join('')}"
-        end
-        
-        set_list_value(page_select_list,pagerange) # put the list of values into popupbutton
-        page_select_list.sizeToFit # resize popupbutton to fit content
-        
-      end # end of if pages == 0...
-      puts files[0]
-      refreshPage()
+  def showAppContentsChanged(sender)
+    trunc_files = nil
+    if show_app_contents.state == NSOffState
+      puts @allfiles.class
+      trunc_files = @allfiles.select { |v| 
+        not (v =~ @app_content_regex)
+      }
+    else
+      puts @allfiles.class
+      trunc_files = @allfiles
     end
+    puts trunc_files.class
+    @showfiles = trunc_files.each_slice(50).to_a
+    self.files = @showfiles[@pagenum]
+    
   end
   
   def cleanUp(sender)
@@ -332,18 +304,18 @@ class CatalogSearchDelegate
   
   def openInFinder(sender)
     sel = array_controller.selectedObjects.first
-
-    file = "/Volumes/#{sel.drive}/#{sel.path}"
-    NSWorkspace.sharedWorkspace.selectFile(file, inFileViewerRootedAtPath: "")
+    puts "#{sel.drive}:#{sel.path}"
+    applescript = %Q|
+tell application "Finder"
+ reveal "#{sel.drive}:#{sel.path}"
+end tell|
+    puts applescript
   end
   
   def copyPathToClipboard(sender)
     path = "/Volumes/#{array_controller.selectedObjects.first.path}"
     puts "copy #{path} to clipboard"
     copy_to_clipboard(path)
-    sound = NSSound.soundNamed("copy")
-    sound.volume = 0.3
-    sound.play
   end
   
   # (fold) date inputs changed
@@ -408,13 +380,6 @@ class CatalogSearchDelegate
   end
   # (end)
   
-  def fileIndex(files)
-    files.each_index do |i|
-      files[i].index = i + 1
-    end
-    return files
-  end
-  
   def refreshCatalogList(sender)
     catalogs_dirlist = Dir["#{applicationSupportFolder}/databases/*.db"].select {|f| !File.directory? f}
     catalogs_names = catalogs_dirlist.map {|f| File.basename(f,".db")}.unshift('---')
@@ -427,11 +392,8 @@ class CatalogSearchDelegate
   
   def refreshDriveList(sender)
     if @db
-      @raw_drives = @db.execute("SELECT * FROM Drive")
-      @drives = []
-      @raw_drives.map {|v| @drives[v[0]] = v[1..2]}
+      @drives = @db.execute("SELECT * FROM Drive")
       puts @drives
-      puts @raw_drives
     end
     puts "__#{@drives}"
   end
@@ -454,54 +416,25 @@ class CatalogSearchDelegate
     end
   end
   
-  def refreshPage()
-    @pagenum ||= 0
-    @pagenum = @showfiles.length if @pagenum > @showfiles.length
-    @pagenum = 0                 if @pagenum < 0
-    self.files = @showfiles[@pagenum]
-    if @pagenum == (@showfiles.length - 1) || @showfiles.length == 0
-      next_page_button.enabled = false
-    else
-      next_page_button.enabled = true
-    end
-    if @pagenum == 0
-      prev_page_button.enabled = false
-    else
-      prev_page_button.enabled = true
-    end
-    
-  end
-  
   def nextPage(sender)
-    @pagenum += 1
-    refreshPage
     puts @pagenum
-    # puts @pagenum
-#     if !(@pagenum+1 >= @showfiles.length)
-#       @pagenum += 1
-#       self.files = @showfiles[@pagenum]
-#       if @pagenum+1 >= @showfiles.length
-#         
-#       end
-#     end 
-#     puts @pagenum
+    if !(@pagenum+1 >= @showfiles.length)
+      @pagenum += 1
+      self.files = @showfiles[@pagenum]
+      if @pagenum+1 >= @showfiles.length
+        
+      end
+    end 
+    puts @pagenum
   end 
   
   def prevPage(sender)
-    @pagenum -= 1
-    refreshPage
     puts @pagenum
-    # puts @pagenum
-#     if @pagenum-1 >= 0
-#       @pagenum -= 1
-#       self.files = @showfiles[@pagenum]
-#     end
-#     puts @pagenum
-  end
-  
-  def pageListChanged(sender)
-    @pagenum = page_select_list.titleOfSelectedItem.to_i - 1 # indexed from 1 but list is indexed from 0
-    refreshPage()
+    if @pagenum-1 >= 0
+      @pagenum -= 1
+      self.files = @showfiles[@pagenum]
+    end
+    puts @pagenum
   end
   
   def search(sender)
@@ -548,10 +481,7 @@ class CatalogSearchDelegate
     result = searcher.doSQL()
     tmpfiles = []
     result[:files].each do |file|
-      drive = @drives[file[:drive_id]]
-      drive_id = drive.first
-      drive_notes = drive.last.strip
-      tmpfile = FileItem.new(file[:path],file[:size],file[:modification],file[:creation],drive_id,drive_notes)
+      tmpfile = FileItem.new(file[:path],file[:size],file[:modification],file[:creation],"drive")
       tmpfiles << tmpfile
     end
     @filecount = tmpfiles.length
@@ -565,13 +495,13 @@ class CatalogSearchDelegate
 
   def tokenField (tokenField, completionsForSubstring: substring, indexOfToken: tokenIndex, indexOfSelectedItem: selectedIndex)
     complete = []
-    if @raw_drives 
+    if @drives 
       not_drive = ""
       if substring.start_with? "^"
         not_drive = "^"
         substring = substring[1..-1]
       end
-      completeObjs = @raw_drives.select { |drive| drive[1].upcase.start_with?(substring.upcase) }
+      completeObjs = @drives.select { |drive| drive[1].upcase.start_with?(substring.upcase) }
       complete = completeObjs.map { |drive| "#{not_drive}#{drive[1]}"}
       if complete.length > 1
         complete << "#{not_drive}#{substring}*"
@@ -586,7 +516,7 @@ end
 
 class CatalogDriveDelegate
   attr_accessor :window
-  attr_accessor :catalog_button, :drive_list, :progressbar, :notes_inp, :statusbar, :timeleft
+  attr_accessor :catalog_button, :drive_list, :progressbar, :notes, :statusbar, :timeleft
   
   def awakeFromNib()
     puts "CatalogDriveDelegate awake"
@@ -601,8 +531,6 @@ class CatalogDriveDelegate
       #puts window.methods(true,true)
       drive_list.removeAllItems
       drive_list.addItemsWithTitles tmp_drive_list
-      notes_inp.stringValue = ""
-      
     else
       alert("Already Cataloging Drvie","Already Cataloging Drive: #{@cataloging_drive_name}.
 Please Wait Until Cataloging Has Finished")
@@ -616,7 +544,7 @@ Please Wait Until Cataloging Has Finished")
       @thread[:can_quit] = false
       catalog_button.enabled = false
       drive_list.enabled = false
-      notes_inp.enabled = false
+      notes.enabled = false
       window.standardWindowButton(NSWindowCloseButton).setEnabled false
       progressbar.startAnimation nil
       progressbar.setUsesThreadedAnimation true
@@ -629,11 +557,11 @@ Please Wait Until Cataloging Has Finished")
       dn = drive_list.titleOfSelectedItem   # get drive by inputed id 
 
       puts "selected #{dn}" # tell user what drive they selected
-      notes = notes_inp.stringValue # get first line of notes 
+      notes = notes.stringValue # get first line of notes 
 
       dp = "/Volumes/#{dn}" # make a var with the path to the drive
 
-      curloc = applicationSupportFolder # var with the absoloute path to the script
+      curloc = pathQ applicationSupportFolder # var with the absoloute path to the script
     
       puts curloc
     
@@ -679,7 +607,7 @@ Please Wait Until Cataloging Has Finished")
           updateStatus(timeleft,"#{percent}% #{roundsleft} #{time_f time_left}")
         end
         path = line[2..-2] # clip newline and ./ off path
-        abspath = "/Volumes/#{dn}/#{path}"
+        abspath = pathQ "/Volumes/#{dn}/#{path}"
         size = `wc -c "#{abspath}" 2> /dev/null` # get file size
         size = size[0..-(abspath.length + 3)].strip # clip indent and filename from command output
         statout = `stat -s "#{abspath}"` # get the output of stat
@@ -951,13 +879,7 @@ class DBActionsDelegate
     methods << init3.method(method) if init3
     methods << init4.method(method) if init4
     if args
-      methods.map do |m|
-        begin 
-          m.call(*args) 
-        rescue Exception => e
-          puts e
-        end
-      end
+      methods.map {|m| m.call(*args) }
     else
       methods.map {|m| m.call }
     end
@@ -1483,17 +1405,15 @@ end
 
 # (fold) model classes
 class FileItem
-  attr_accessor :path, :size, :modification, :creation, :drive, :drive_notes, :index
+  attr_accessor :path, :size, :modification, :creation, :drive
   
-  def initialize(pth,sze,mod,cre,drive,notes="")
+  def initialize(pth,sze,mod,cre,drive)
     @dateFormat = "%b %d, %Y"
-    self.index = -1
     self.drive = drive
     self.path = pth
     self.size = sze
     self.modification = Time.at(mod).to_datetime
     self.creation = Time.at(cre).to_datetime
-    self.drive_notes = notes
   end
   
   def size
@@ -1510,10 +1430,6 @@ class FileItem
   
   def filename
     @path #File.basename(@path)
-  end
-  
-  def index
-    num_f(@index)
   end
 end
 

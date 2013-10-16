@@ -6,24 +6,6 @@
 #  Copyright 2013 Pierce Corcoran. All rights reserved.
 #
 
-def compare_file_letters(file,letters)
-  path = file.path
-  pathArr = path.split("/")
-  sup_c = pathArr[0].upcase[0]
-  sub_c = pathArr[1].upcase[0]
-  
-  curr_sup = letters[0]
-  curr_sub = letters[1]
-  
-  if sup_c > curr_sup
-    letters[0] = sup_c
-  end
-  if sub_c > curr_sub.upcase
-    letters[1] = sub_c.downcase
-  end
-  return letters
-end
-
 def make_SQL_like(field,match_string,options={})
   options[:not_char] ||= "^"
   options[:prefix] ||= ""
@@ -60,9 +42,7 @@ end
 def set_list_value(list,values,nil_value=nil)
   values.unshift(nil_value) if nil_value
   list.removeAllItems
-  puts "a"
   list.addItemsWithTitles values
-  puts "b"
   return list.titleOfSelectedItem
 end
 
@@ -135,17 +115,11 @@ def wildcards(item,gsubs=[['*','%'],['+','_']])
   return result.sqlescape
 end
 
-def constructSQL(table,and_conds,or_conds=[])
-  conds = []
-  and_string = and_conds.join(" AND ")
-  or_string = or_conds.join(" OR ")
-  if or_string != ""
-    or_string = " AND #{or_string}"
-  end
-  if and_conds.empty? and or_conds.empty?
+def constructSQL(table,conds,seperator="AND")
+  if conds.empty?
     sql = "SELECT * FROM #{table.sqlescape}"
   else
-    sql = "SELECT * FROM #{table.sqlescape} WHERE #{and_string} #{or_string}"
+    sql = "SELECT * FROM #{table.sqlescape} WHERE #{conds.join(" " + seperator + " ")}"
   end
 end
 

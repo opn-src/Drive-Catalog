@@ -10,8 +10,7 @@
 # do that here too.
 framework 'Cocoa'
 #$:.unshift '/Users/pierce/.rvm/gems/ruby-2.0.0-p247/gems/sequel-4.2.0/lib' # sequel
-#$:.unshift '/Users/pierce/.rvm/gems/ruby-2.0.0-p247/gems/sqlite3-1.3.8/lib' # sqlite
-#$:.unshift *Dir['/Library/Application Support/Drive Catalog/Gems/**/lib']
+$:.unshift '/Users/pierce/.rvm/gems/ruby-2.0.0-p247/gems/sqlite3-1.3.8/lib' # sqlite
 
 require 'rubygems'
 require 'sqlite3'
@@ -25,7 +24,6 @@ main = File.basename(__FILE__, File.extname(__FILE__))
 dir_path = NSBundle.mainBundle.resourcePath.fileSystemRepresentation
 Dir.glob(File.join(dir_path, '*.{rb,rbo}')).map { |x| File.basename(x, File.extname(x)) }.uniq.each do |path|
   if path != main
-    puts path
     require(path)
   end
 end
