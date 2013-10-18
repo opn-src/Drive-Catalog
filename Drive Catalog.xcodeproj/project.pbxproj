@@ -16,7 +16,7 @@
 		BE38C11117F24A8900EECBCB /* ShowFileIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = BE38C11017F24A8900EECBCB /* ShowFileIcon.png */; };
 		BE38C11417F27CEF00EECBCB /* CopyPathIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = BE38C11217F27CEF00EECBCB /* CopyPathIcon.png */; };
 		BE38C11F17F2B49300EECBCB /* Icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = BE38C11E17F2B49300EECBCB /* Icon.icns */; };
-		BE3A8613180F167F0097B649 /* MacRuby.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE38BC3D17EFE3AC00397F38 /* MacRuby.framework */; };
+		BE3A86861810E4C10097B649 /* MacRuby.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE38BC3D17EFE3AC00397F38 /* MacRuby.framework */; };
 		BE5F3959180D2D98005105EE /* copy.aiff in Resources */ = {isa = PBXBuildFile; fileRef = BE5F3958180D2D98005105EE /* copy.aiff */; };
 		BE8B760317FE7E8700FE3563 /* Arrows-Left-round-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = BE8B760117FE7E8700FE3563 /* Arrows-Left-round-icon.png */; };
 		BE8B760417FE7E8700FE3563 /* Arrows-Right-round-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = BE8B760217FE7E8700FE3563 /* Arrows-Right-round-icon.png */; };
@@ -62,7 +62,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BE3A8613180F167F0097B649 /* MacRuby.framework in Frameworks */,
+				BE3A86861810E4C10097B649 /* MacRuby.framework in Frameworks */,
 				BE38BC1117EE53E500397F38 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -282,7 +282,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
@@ -314,7 +314,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
@@ -338,7 +338,7 @@
 		BE38BC2C17EE53E500397F38 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				ARCHS = x86_64;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\\\\\\\"$(SYSTEM_APPS_DIR)/Xcode.app/Contents/Developer/Library/Frameworks\\\\\\\"",
@@ -353,6 +353,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"/Users/pierce/Documents/Drive\\ Catalog/Drive\\ Catalog/MacRuby.framework/Versions/0.12/usr/lib",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks/MacRuby.framework/Versions/0.12/usr/lib",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
@@ -363,7 +364,7 @@
 		BE38BC2D17EE53E500397F38 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				ARCHS = x86_64;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\\\\\\\"$(SYSTEM_APPS_DIR)/Xcode.app/Contents/Developer/Library/Frameworks\\\\\\\"",
@@ -378,6 +379,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"/Users/pierce/Documents/Drive\\ Catalog/Drive\\ Catalog/MacRuby.framework/Versions/0.12/usr/lib",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks/MacRuby.framework/Versions/0.12/usr/lib",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";

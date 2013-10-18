@@ -10,7 +10,7 @@
 # do that here too.
 framework 'Cocoa'
 #$:.unshift '/Users/pierce/.rvm/gems/ruby-2.0.0-p247/gems/sequel-4.2.0/lib' # sequel
-$:.unshift '/Users/pierce/.rvm/gems/ruby-2.0.0-p247/gems/sqlite3-1.3.8/lib' # sqlite
+#$:.unshift '/Users/pierce/.rvm/gems/ruby-2.0.0-p247/gems/sqlite3-1.3.8/lib' # sqlite
 
 require 'rubygems'
 require 'sqlite3'

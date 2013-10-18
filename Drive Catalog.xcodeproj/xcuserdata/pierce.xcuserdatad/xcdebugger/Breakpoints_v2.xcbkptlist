@@ -23,12 +23,12 @@
                   symbolName = "set_sqlite3_func_result"
                   moduleName = "sqlite3_native.bundle"
                   urlString = "file://localhost/Library/Frameworks/MacRuby.framework/Versions/0.12/usr/include/ruby-1.9.2/ruby/ruby.h"
-                  timestampString = "403650944.385219"
+                  timestampString = "403762647.347421"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "915"
-                  endingLineNumber = "915"
-                  offsetFromSymbolStart = "145">
+                  startingLineNumber = "917"
+                  endingLineNumber = "917"
+                  offsetFromSymbolStart = "241">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -37,12 +37,12 @@
                   symbolName = "bind_param"
                   moduleName = "sqlite3_native.bundle"
                   urlString = "file://localhost/Library/Frameworks/MacRuby.framework/Versions/0.12/usr/include/ruby-1.9.2/ruby/ruby.h"
-                  timestampString = "403650944.385726"
+                  timestampString = "403762647.347915"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "915"
-                  endingLineNumber = "915"
-                  offsetFromSymbolStart = "503">
+                  startingLineNumber = "917"
+                  endingLineNumber = "917"
+                  offsetFromSymbolStart = "403">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -51,12 +51,12 @@
                   symbolName = "bind_param"
                   moduleName = "sqlite3_native.bundle"
                   urlString = "file://localhost/Library/Frameworks/MacRuby.framework/Versions/0.12/usr/include/ruby-1.9.2/ruby/ruby.h"
-                  timestampString = "403650944.38618"
+                  timestampString = "403762647.348281"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "915"
-                  endingLineNumber = "915"
-                  offsetFromSymbolStart = "535">
+                  startingLineNumber = "917"
+                  endingLineNumber = "917"
+                  offsetFromSymbolStart = "981">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -81,12 +81,12 @@
                   symbolName = "set_sqlite3_func_result"
                   moduleName = "sqlite3_native.bundle"
                   urlString = "file://localhost/Library/Frameworks/MacRuby.framework/Versions/0.12/usr/include/ruby-1.9.2/ruby/ruby.h"
-                  timestampString = "403650944.386805"
+                  timestampString = "403762647.348919"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "915"
-                  endingLineNumber = "915"
-                  offsetFromSymbolStart = "145">
+                  startingLineNumber = "917"
+                  endingLineNumber = "917"
+                  offsetFromSymbolStart = "241">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -95,12 +95,12 @@
                   symbolName = "bind_param"
                   moduleName = "sqlite3_native.bundle"
                   urlString = "file://localhost/Library/Frameworks/MacRuby.framework/Versions/0.12/usr/include/ruby-1.9.2/ruby/ruby.h"
-                  timestampString = "403650944.387184"
+                  timestampString = "403762647.349277"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "915"
-                  endingLineNumber = "915"
-                  offsetFromSymbolStart = "503">
+                  startingLineNumber = "917"
+                  endingLineNumber = "917"
+                  offsetFromSymbolStart = "403">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -109,12 +109,12 @@
                   symbolName = "bind_param"
                   moduleName = "sqlite3_native.bundle"
                   urlString = "file://localhost/Library/Frameworks/MacRuby.framework/Versions/0.12/usr/include/ruby-1.9.2/ruby/ruby.h"
-                  timestampString = "403650944.387555"
+                  timestampString = "403762647.349647"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "915"
-                  endingLineNumber = "915"
-                  offsetFromSymbolStart = "535">
+                  startingLineNumber = "917"
+                  endingLineNumber = "917"
+                  offsetFromSymbolStart = "981">
                </Location>
             </Locations>
          </BreakpointContent>
