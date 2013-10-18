@@ -81,7 +81,6 @@
    </AnalyzeAction>
    <ArchiveAction
       buildConfiguration = "Release"
-      customArchiveName = "Drive Cat"
       revealArchiveInOrganizer = "YES">
    </ArchiveAction>
 </Scheme>
